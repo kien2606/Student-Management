@@ -2,5 +2,5 @@
 Technical :
 - reactjs
 - redux/redux-toolkit
-- redux/saga
+- redux-saga
 - material-ui
