@@ -72,6 +72,9 @@ function Dashboard() {
       {/* all student ranking list */}
       <Box mt={4}>
         <Typography variant="h4">Mark Student</Typography>
+        {/* {console.log("hello", dashboardState.highestStudentList)}
+        {console.log("hello2", dashboardState.lowestStudentList)} */}
+
         <Box mt={2}>
           <Grid container spacing={3}>
             <Grid item>

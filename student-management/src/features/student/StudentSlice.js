@@ -42,7 +42,7 @@ export const {
   fetchStudentFailed,
   fetchStudentSuccess,
   setFilter,
-  setFilterWithDebounce
+  setFilterWithDebounce,
 } = studentSlice.actions;
 //selector
 

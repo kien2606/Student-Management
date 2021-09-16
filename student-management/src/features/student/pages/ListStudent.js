@@ -5,6 +5,7 @@ import {
   Typography,
   makeStyles,
 } from "@material-ui/core";
+import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import React, { useEffect } from "react";
 import {
   fetchStudent,
@@ -18,6 +19,7 @@ import { Pagination } from "@material-ui/lab";
 import StudentFilters from "../components/StudentFilters";
 import StudentRankingList from "../components/StudentRankingList";
 import { citySelector } from "../../city/citySlice";
+import studentApi from "../../../api/studentApi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,9 +49,11 @@ function ListStudent() {
   const totalPage = pagination?._totalRows / pagination?._limit;
   const currentPage = pagination?._page;
   const loading = studentState.loading;
+  const match = useRouteMatch();
+  const history = useHistory();
   useEffect(() => {
     dispatch(fetchStudent(filter));
-  }, [filter]);
+  }, [filter, dispatch]);
 
   const handlePageChange = (event, page) => {
     dispatch(
@@ -69,25 +73,47 @@ function ListStudent() {
     return { ...pre };
   }, {});
   const handleSearchChange = (value) => {
-    console.log(value);
     dispatch(setFilterWithDebounce(value));
   };
+  const handleFilterCity = (value) => {
+    dispatch(setFilter(value));
+  };
+  const handleSortBy = (value) => {
+    dispatch(setFilter(value));
+  };
+  const handleRemoveStudent = async (value) => {
+    try {
+      await studentApi.remove(value?.id || "");
+      const newFilter = { ...filter };
+      dispatch(setFilter(newFilter));
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  const handleEditStudent = (value) => {
+    history.push(`${match.url}/${value.id}`);
+  };
+  // console.log('filter', filter);
   return (
     <Box className={classes.root}>
       {loading && <LinearProgress className={classes.loading} />}
       <Box className={classes.titleContainer}>
         <Typography variant="h4"> Students Table</Typography>
         {/* btn add student */}
-        <Button variant="contained" color="primary">
-          Add New Student
-        </Button>
+        <Link to={`${match.url}/add`} style = {{textDecoration : "none"}}>
+          <Button variant="contained" color="primary">
+            Add New Student
+          </Button>
+        </Link>
       </Box>
       <Box mb={3}>
         {/* //filters  */}
         <StudentFilters
           filter={filter}
-          cityList={cityState}
+          cityList={cityState.list}
           onSearchChange={handleSearchChange}
+          onFilterCity={handleFilterCity}
+          onSortBy={handleSortBy}
         />
       </Box>
       {/* student Table */}
@@ -95,6 +121,8 @@ function ListStudent() {
         <StudentRankingList
           studentList={studentState.list}
           listCity={listCity}
+          onRemove={handleRemoveStudent}
+          onEdit={handleEditStudent}
         />
       </Box>
       {/* pagination */}

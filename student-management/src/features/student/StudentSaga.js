@@ -3,6 +3,7 @@ import {
   fetchStudent,
   fetchStudentFailed,
   fetchStudentSuccess,
+  removeStudent,
   setFilter,
   setFilterWithDebounce,
 } from "./StudentSlice";
@@ -25,5 +26,5 @@ function* handleSearchDebounce(action) {
 export default function* studentSaga() {
   // watch fetch student action
   yield takeLatest(fetchStudent.type, fetchStudentList);
-  yield debounce(500,setFilterWithDebounce.type, handleSearchDebounce);
+  yield debounce(500, setFilterWithDebounce.type, handleSearchDebounce);
 }
