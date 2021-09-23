@@ -20,6 +20,7 @@ import StudentFilters from "../components/StudentFilters";
 import StudentRankingList from "../components/StudentRankingList";
 import { citySelector } from "../../city/citySlice";
 import studentApi from "../../../api/studentApi";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,6 +90,7 @@ function ListStudent() {
     } catch (error) {
       console.log("error", error);
     }
+    toast.success("Remove Student Successfully");
   };
   const handleEditStudent = (value) => {
     history.push(`${match.url}/${value.id}`);
@@ -100,7 +102,7 @@ function ListStudent() {
       <Box className={classes.titleContainer}>
         <Typography variant="h4"> Students Table</Typography>
         {/* btn add student */}
-        <Link to={`${match.url}/add`} style = {{textDecoration : "none"}}>
+        <Link to={`${match.url}/add`} style={{ textDecoration: "none" }}>
           <Button variant="contained" color="primary">
             Add New Student
           </Button>

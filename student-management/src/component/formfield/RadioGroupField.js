@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { useController } from "react-hook-form";
 
-function SelectField({ control, name, lable, disabled, options }) {
+function RadioGroupField({ control, name, lable, disabled, options }) {
   const {
     field: { value, onChange, onBlur },
     fieldState: { invalid, error },
@@ -35,4 +35,4 @@ function SelectField({ control, name, lable, disabled, options }) {
   );
 }
 
-export default SelectField;
+export default RadioGroupField;
